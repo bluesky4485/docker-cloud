@@ -1,0 +1,24 @@
+version: '2'
+services:
+
+  # 公共镜像，只配置了国内镜像加速和中国时区配置
+  alpine:
+    build: alpine
+    image: kolehank/alpine
+
+  java8:
+    build: java8
+    image: kolehank/java8
+    depends_on:
+      - "alpine"
+      
+  consul:
+    build: consul
+    image: kolehank/consul
+    depends_on:
+      - "alpine"
+    ports:
+      - "10000:8500"
+    volumes:
+     - "./volumes/consul/data:/consul/data"
+    restart: always
